@@ -30,7 +30,7 @@ npm  run local2serve
    特别值得注意的是 src中的静态文件是参与打包的
     与 src同级的static文件 打包中会原封不动挪到dist中的合并的static中
 
-    `
+    ```bash
      -build
      -config
      -src
@@ -85,15 +85,16 @@ npm  run local2serve
         -imgs
             *.jpg
         +config.js  //外置配置全局变量
-
+```
 
 ## 项目运行 需要 loader 及 配置
+```bash
 
     一、配置  sass
         需要 loader   node-sass   sass-loader
         配置  build/webpack.base.conf.js
 
-        `
+        
         modules:{
             rules：[
                 {
@@ -103,29 +104,30 @@ npm  run local2serve
             ]
         }
         
-        `
+        
     二、 配置 store 增加 命名空间  使用子模块可根模块共存
         解决多人 编辑状态字段
     
     三、解决 IE下对ES6 编译成ES5的 兼容  babel-polyfill
         配置  build/webpack.base.conf.js 添加
 
-        `
+        
             require(""babel-polyfill")
             module.exports = {
                 entry: {
                     app: ["babel-polyfill", "./src/main.js"]
                 }
             }
-        `
+        
     四、项目启动，打开浏览器
         配置： config/index.js 
-        `
+        
         dev:{
            autoOpenBrowser: true, 
         }
+```
         
-        `
+        
 
 
 ## 打包前需要新增 生产环境的 配置文件编写
@@ -136,7 +138,7 @@ npm  run local2serve
 ## 打包配置指南
 
   ### 插件
- ```bush
+ ```bash
 
     1.  打包压缩  *.gz
         限制版本号要求: "compression-webpack-plugin": "^1.1.12",
@@ -144,7 +146,7 @@ npm  run local2serve
     2. 打包清除所有的 控制台信息  console.log()或者  func(){console.log()}
         无版本号限制：
         修改 build目录下的 webpack.prod.conf.js 中plugins中的
-        `
+        
             new UglifyJsPlugin({
             uglifyOptions: {
                 compress: {
@@ -156,12 +158,12 @@ npm  run local2serve
             sourceMap: config.build.productionSourceMap,
             parallel: true
             }),
-        `
+        
     3. 运行期 开启 IP 连接
         无版本要求：
         修改 build/webpack.dev.conf.js 
         在文件 开头 加入
-        `
+        
            function getIPAdress() {
                 var interfaces = require('os').networkInterfaces();
                 for (var devName in interfaces) {
@@ -174,22 +176,21 @@ npm  run local2serve
                     }
                 }
             }
-        `
+        
         然后 把  const HOST = getIPAdress();
 
     4.  打包静态资挂载源路径
         修改  config/index.js  添加如下
-        `        
+               
             let temp_json = require("../package.json");
             let temp_staticPath_build = temp_json.buildStaticPath
-        `
+        
         修改 build 对象下的   
-        `
+        
             build:{
                 assetsPublicPath:""+temp_staticPath_build
             }
-            
-        `
+         
 ```
 
  
