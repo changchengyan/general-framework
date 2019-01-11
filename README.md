@@ -27,8 +27,6 @@ npm  run local2serve
 
 ##  项目目录结构
 
-  
-
     ``` 
      特别值得注意的是 src中的静态文件是参与打包的
      与 src同级的static文件 打包中会原封不动挪到dist中的合并的static中
@@ -86,114 +84,115 @@ npm  run local2serve
         -imgs
             *.jpg
         +config.js  //外置配置全局变量
-```
+    ```
 
-## 项目运行 需要 loader 及 配置
-``` 
+##   项目运行 需要 loader 及 配置
 
-    一、配置  sass
-        需要 loader   node-sass   sass-loader
-        配置  build/webpack.base.conf.js
+    ``` 
+        一、配置  sass
+            需要 loader   node-sass   sass-loader
+            配置  build/webpack.base.conf.js
 
-        
-        modules:{
-            rules：[
-                {
-                    test: /\.scss$/,
-                    loaders: ["style", "css", "sass"]
-                }
-            ]
-        }
-        
-        
-    二、 配置 store 增加 命名空间  使用子模块可根模块共存
-        解决多人 编辑状态字段
-    
-    三、解决 IE下对ES6 编译成ES5的 兼容  babel-polyfill
-        配置  build/webpack.base.conf.js 添加
-
-        
-            require(""babel-polyfill")
-            module.exports = {
-                entry: {
-                    app: ["babel-polyfill", "./src/main.js"]
-                }
+            
+            modules:{
+                rules：[
+                    {
+                        test: /\.scss$/,
+                        loaders: ["style", "css", "sass"]
+                    }
+                ]
             }
+            
+            
+        二、 配置 store 增加 命名空间  使用子模块可根模块共存
+            解决多人 编辑状态字段
         
-    四、项目启动，打开浏览器
-        配置： config/index.js 
-        
-        dev:{
-           autoOpenBrowser: true, 
-        }
-```
+        三、解决 IE下对ES6 编译成ES5的 兼容  babel-polyfill
+            配置  build/webpack.base.conf.js 添加
+
+            
+                require(""babel-polyfill")
+                module.exports = {
+                    entry: {
+                        app: ["babel-polyfill", "./src/main.js"]
+                    }
+                }
+            
+        四、项目启动，打开浏览器
+            配置： config/index.js 
+            
+            dev:{
+            autoOpenBrowser: true, 
+            }
+    ```
         
         
 
 
 ## 打包前需要新增 生产环境的 配置文件编写
+
     ```
         现有 配置文件  仅限于   index.html  和 static 下的 config.js
 
         需要在项目 static 文件夹下 新建  temp_config.js  和  temp_index.html   ****(这两个文件 必须填写完整，不过后期也可以完善！)
     ```
 
-## 打包配置指南
 
-  ### 插件
- ``` 
+## 插件
 
-    1.  打包压缩  *.gz
-        限制版本号要求: "compression-webpack-plugin": "^1.1.12",
-        修改webpack：config/build/  把  productionGzip 改为 true
-    2. 打包清除所有的 控制台信息  console.log()或者  func(){console.log()}
-        无版本号限制：
-        修改 build目录下的 webpack.prod.conf.js 中plugins中的
-        
-            new UglifyJsPlugin({
-            uglifyOptions: {
-                compress: {
-                warnings: false,
-                drop_console: true,//console
-                pure_funcs: ['console.log']//移除console
-                }
-            },
-            sourceMap: config.build.productionSourceMap,
-            parallel: true
-            }),
-        
-    3. 运行期 开启 IP 连接
-        无版本要求：
-        修改 build/webpack.dev.conf.js 
-        在文件 开头 加入
-        
-           function getIPAdress() {
-                var interfaces = require('os').networkInterfaces();
-                for (var devName in interfaces) {
-                    var iface = interfaces[devName];
-                    for (var i = 0; i < iface.length; i++) {
-                        var alias = iface[i];
-                        if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
-                            return alias.address;
+    ``` 
+
+        1.  打包压缩  *.gz
+            限制版本号要求: "compression-webpack-plugin": "^1.1.12",
+            修改webpack：config/build/  把  productionGzip 改为 true
+        2. 打包清除所有的 控制台信息  console.log()或者  func(){console.log()}
+            无版本号限制：
+            修改 build目录下的 webpack.prod.conf.js 中plugins中的
+            
+                new UglifyJsPlugin({
+                uglifyOptions: {
+                    compress: {
+                    warnings: false,
+                    drop_console: true,//console
+                    pure_funcs: ['console.log']//移除console
+                    }
+                },
+                sourceMap: config.build.productionSourceMap,
+                parallel: true
+                }),
+            
+        3. 运行期 开启 IP 连接
+            无版本要求：
+            修改 build/webpack.dev.conf.js 
+            在文件 开头 加入
+            
+            function getIPAdress() {
+                    var interfaces = require('os').networkInterfaces();
+                    for (var devName in interfaces) {
+                        var iface = interfaces[devName];
+                        for (var i = 0; i < iface.length; i++) {
+                            var alias = iface[i];
+                            if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
+                                return alias.address;
+                            }
                         }
                     }
                 }
-            }
-        
-        然后 把  const HOST = getIPAdress();
+            
+            然后 把  const HOST = getIPAdress();
 
-    4.  打包静态资挂载源路径
-        修改  config/index.js  添加如下
-               
-            let temp_json = require("../package.json");
-            let temp_staticPath_build = temp_json.buildStaticPath
-        
-        修改 build 对象下的   
-        
-            build:{
-                assetsPublicPath:""+temp_staticPath_build
-            }
-         
+        4.  打包静态资挂载源路径
+            修改  config/index.js  添加如下
+                
+                let temp_json = require("../package.json");
+                let temp_staticPath_build = temp_json.buildStaticPath
+            
+            修改 build 对象下的   
+            
+                build:{
+                    assetsPublicPath:""+temp_staticPath_build
+                }
+            
 ```
 
  
