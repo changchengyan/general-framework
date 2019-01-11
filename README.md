@@ -52,11 +52,13 @@ npm  run local2serve
                  -modules2
                     +*.js
                     +*.js
-        -iframe
+        -iframe  // 可能在arcgis中有用 
             -modules1
                 *.vue
              -modules2
                 *.vue
+        -mixins  // 混合器目录
+            *.js
 
         -views
             -moudles1
