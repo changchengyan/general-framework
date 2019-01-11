@@ -136,7 +136,7 @@ npm  run local2serve
 ## 打包配置指南
 
   ### 插件
-  `
+ ```bush
 
     1.  打包压缩  *.gz
         限制版本号要求: "compression-webpack-plugin": "^1.1.12",
@@ -144,19 +144,19 @@ npm  run local2serve
     2. 打包清除所有的 控制台信息  console.log()或者  func(){console.log()}
         无版本号限制：
         修改 build目录下的 webpack.prod.conf.js 中plugins中的
-`
-    new UglifyJsPlugin({
-      uglifyOptions: {
-        compress: {
-          warnings: false,
-          drop_console: true,//console
-          pure_funcs: ['console.log']//移除console
-        }
-      },
-      sourceMap: config.build.productionSourceMap,
-      parallel: true
-    }),
-`
+        `
+            new UglifyJsPlugin({
+            uglifyOptions: {
+                compress: {
+                warnings: false,
+                drop_console: true,//console
+                pure_funcs: ['console.log']//移除console
+                }
+            },
+            sourceMap: config.build.productionSourceMap,
+            parallel: true
+            }),
+        `
     3. 运行期 开启 IP 连接
         无版本要求：
         修改 build/webpack.dev.conf.js 
@@ -175,7 +175,7 @@ npm  run local2serve
                 }
             }
         `
-    然后 把  const HOST = getIPAdress();
+        然后 把  const HOST = getIPAdress();
 
     4.  打包静态资挂载源路径
         修改  config/index.js  添加如下
@@ -190,6 +190,7 @@ npm  run local2serve
             }
             
         `
+```
 
  
 
