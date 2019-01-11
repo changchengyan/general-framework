@@ -27,10 +27,11 @@ npm  run local2serve
 
 ##  项目目录结构
 
-   特别值得注意的是 src中的静态文件是参与打包的
-    与 src同级的static文件 打包中会原封不动挪到dist中的合并的static中
+  
 
-    ``` bash
+    ``` 
+     特别值得注意的是 src中的静态文件是参与打包的
+     与 src同级的static文件 打包中会原封不动挪到dist中的合并的static中
      -build
      -config
      -src
@@ -88,7 +89,7 @@ npm  run local2serve
 ```
 
 ## 项目运行 需要 loader 及 配置
-``` bash
+``` 
 
     一、配置  sass
         需要 loader   node-sass   sass-loader
@@ -131,14 +132,16 @@ npm  run local2serve
 
 
 ## 打包前需要新增 生产环境的 配置文件编写
-    现有 配置文件  仅限于   index.html  和 static 下的 config.js
+    ```
+        现有 配置文件  仅限于   index.html  和 static 下的 config.js
 
-    需要在项目 static 文件夹下 新建  temp_config.js  和  temp_index.html   ****(这两个文件 必须填写完整，不过后期也可以完善！)
+        需要在项目 static 文件夹下 新建  temp_config.js  和  temp_index.html   ****(这两个文件 必须填写完整，不过后期也可以完善！)
+    ```
 
 ## 打包配置指南
 
   ### 插件
- ``` bash
+ ``` 
 
     1.  打包压缩  *.gz
         限制版本号要求: "compression-webpack-plugin": "^1.1.12",
