@@ -30,7 +30,7 @@ npm  run local2serve
    特别值得注意的是 src中的静态文件是参与打包的
     与 src同级的static文件 打包中会原封不动挪到dist中的合并的static中
 
-    ```bash
+    ``` bash
      -build
      -config
      -src
@@ -88,7 +88,7 @@ npm  run local2serve
 ```
 
 ## 项目运行 需要 loader 及 配置
-```bash
+``` bash
 
     一、配置  sass
         需要 loader   node-sass   sass-loader
@@ -138,7 +138,7 @@ npm  run local2serve
 ## 打包配置指南
 
   ### 插件
- ```bash
+ ``` bash
 
     1.  打包压缩  *.gz
         限制版本号要求: "compression-webpack-plugin": "^1.1.12",
